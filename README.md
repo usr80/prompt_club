@@ -75,6 +75,18 @@ python -m http.server 5173
 
 > 只想看界面、不接云端？直接删掉 `cloud-config.js` 也能跑：应用会退化为纯本地模式（只读浏览 + 本机收藏），控制台会提示云服务未就绪。
 
+### endpoint 自适应（重要）
+
+托管站点的域名可能变更（例如 `*.app.workbuddy.host` → `*.app.workbuddy.link`）。如果把 endpoint 写死，域名一换 SDK 就会去连一个不存在的地址，表现为**页面能打开但登录不了**。
+
+因此 `app.js` 里的 `resolveConfig()` 做了自适应：
+
+- 部署在真实站点上（https 且非 localhost / 私网 IP）→ `endpoint` 自动跟随 `location.origin`，配置文件里的值仅作本地调试回退
+- 本地调试（`localhost` / `127.0.0.1` / 私网 IP / `file://`）→ 沿用配置里的 `endpoint`
+- 特殊场景需要固定地址 → 在 `cloud-config.js` 里加 `endpointPin: true`
+
+排查登录问题：打开 `?diag=1` 看诊断面板，或用「数据 → 连接诊断」。若 endpoint 与站点地址不同源、或授权报网络错误，多半是配置里的地址已过期。
+
 ### URL 参数
 
 | 参数 | 作用 |
@@ -84,6 +96,7 @@ python -m http.server 5173
 | `?new=1` | 直接打开新建表单（需登录） |
 | `?s=<share_id>` | 打开共享只读页（无需登录） |
 | `?sharecode=...` | 平台部署时附带的访问码，共享链接会自动保留它 |
+| `?diag=1` | 打开「连接诊断」面板：逐项检查配置 / SDK / endpoint 同源 / 登录授权 / 数据面连通。登录不了时先看它 |
 
 ---
 

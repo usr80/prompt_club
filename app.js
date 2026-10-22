@@ -79,10 +79,39 @@
   /* =========================================================
      云服务 · 初始化 / 会话 / 同步
      ========================================================= */
-  const CFG = window.CLOUD_CONFIG || null;
+  /* ---- 配置自适应 --------------------------------------------------
+     托管站点的域名会变（app.workbuddy.host → app.workbuddy.link）。
+     一旦 endpoint 写死旧域名，SDK 就会去连一个不存在的地址，
+     表现为「能打开页面但登录不了」。所以：
+       · 部署在真实站点上 → endpoint 一律跟随 location.origin
+       · 本地调试（localhost / 127 / 私网 IP / file://）→ 沿用配置里的地址
+       · 特殊场景需要固定地址 → 在 cloud-config.js 里写 endpointPin: true
+     ---------------------------------------------------------------- */
+  function resolveConfig(raw) {
+    if (!raw) return null;
+    const cfg = Object.assign({}, raw);
+    const { protocol, hostname, origin } = location;
+    const isWeb = protocol === 'https:' || protocol === 'http:';
+    const isLocal = !hostname
+      || hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]' || hostname === '::1'
+      || /^(10|127)\./.test(hostname) || /^192\.168\./.test(hostname)
+      || /^172\.(1[6-9]|2\d|3[01])\./.test(hostname) || /\.local$/.test(hostname);
+    if (isWeb && !isLocal && !cfg.endpointPin) {
+      const old = cfg.endpoint || '';
+      cfg.endpoint = origin;
+      if (old && old !== origin) {
+        cfg.endpointRewritten = { from: old, to: origin };
+        try { console.info('[cloud] endpoint 已跟随站点域名：' + old + ' → ' + origin); } catch (e) {}
+      }
+    }
+    return cfg;
+  }
+
+  const CFG = resolveConfig(window.CLOUD_CONFIG);
   const TABLE = (CFG && CFG.table) || 'prompt_items';
   const SHARE_TABLE = (CFG && CFG.shareTable) || 'shared_prompts';
   let cloud = null;
+  let cloudDiag = '';           // 云服务不可用时的具体原因（展示到账号区）
   let session = null;
   let cloudMode = false;        // 已登录，数据以云端为准
   let syncState = 'local';      // local | pulling | pushing | ok | error
@@ -105,18 +134,42 @@
   }
 
   function initCloud() {
-    if (!CFG || !window.WorkBuddyCloud) return false;
+    if (!window.WorkBuddyCloud) {
+      cloudDiag = '云 SDK 未加载（检查网络或被拦截的 CDN）';
+      return false;
+    }
+    if (!CFG) {
+      cloudDiag = '缺少云配置（cloud-config.js）';
+      return false;
+    }
+    if (!CFG.endpoint || !CFG.publishableKey) {
+      cloudDiag = '云配置不完整（endpoint / publishableKey）';
+      return false;
+    }
     try {
       cloud = window.WorkBuddyCloud.createWorkBuddyCloud({
         endpoint: CFG.endpoint,
         oauthRelayBaseUrl: CFG.oauthRelayBaseUrl,
         publishableKey: CFG.publishableKey
       });
+      cloudDiag = '';
       return !!cloud;
     } catch (e) {
       cloud = null;
+      cloudDiag = 'SDK 初始化失败：' + ((e && e.message) || e);
       return false;
     }
+  }
+
+  /* 网络类错误识别，给出可操作的提示而不是干巴巴的英文报错 */
+  function isNetworkErr(err) {
+    const s = ((err && (err.message || err.code || err.name)) || '') + ' ' + (err ? JSON.stringify(err) : '');
+    return /Failed to fetch|NetworkError|Load failed|network|ENOTFOUND|ERR_NAME|fetch|timeout/i.test(s);
+  }
+
+  function netHint(err) {
+    if (!isNetworkErr(err)) return '';
+    return '（云服务地址不可达：当前 endpoint = ' + ((CFG && CFG.endpoint) || '未配置') + '）';
   }
 
   function uid() {
@@ -148,8 +201,8 @@
     let btnCls = 'primary';
     let disabled = false;
 
-    if (!CFG || !window.WorkBuddyCloud) {
-      label = '云服务未就绪（SDK 未加载）';
+    if (!cloud) {
+      label = cloudDiag || '云服务未就绪';
       btnLabel = '不可用';
       disabled = true;
     } else if (syncState === 'pulling' || syncState === 'pushing') {
@@ -386,23 +439,97 @@
       if (del.error) throw del.error;
       if (!del.data || !del.data.length) throw new Error('删除未生效');
 
-      toast('自检通过：写入 / 读取 / 删除均正常');
+      toast('自检通过：写入 / 读取 / 删除均正常（' + (CFG.endpoint || '') + '）');
     } catch (err) {
-      toast('自检失败：' + describeErr(err));
+      toast('自检失败：' + describeErr(err) + netHint(err));
     }
   }
 
+  /* 连接诊断：?diag=1 直接在页面上跑一遍，定位「能打开但登录不了」 */
+  async function runDiagnostics() {
+    const rows = [];
+    const add = (k, v, bad) => rows.push({ k, v: String(v), bad: !!bad });
+
+    add('站点地址', location.origin);
+    add('配置文件', window.CLOUD_CONFIG ? '已加载 cloud-config.js' : '缺失（浏览器控制台会报 CLOUD_CONFIG 未定义）', !window.CLOUD_CONFIG);
+    add('云 SDK', window.WorkBuddyCloud ? '已加载' : '未加载（CDN 被拦截或断网）', !window.WorkBuddyCloud);
+
+    if (CFG) {
+      add('endpoint（生效）', CFG.endpoint);
+      if (CFG.endpointRewritten) {
+        add('endpoint（改写）', CFG.endpointRewritten.from + ' → ' + CFG.endpointRewritten.to + '（已自动跟随站点域名）');
+      }
+      let sameHost = '未知';
+      try { sameHost = new URL(CFG.endpoint).host === location.host ? '是（同源）' : '否（跨域，可能被 CORS 拦住）'; } catch (e) {}
+      add('endpoint 是否同源', sameHost, sameHost.indexOf('否') === 0);
+      add('publishableKey', CFG.publishableKey ? (CFG.publishableKey.slice(0, 12) + '…') : '缺失', !CFG.publishableKey);
+    }
+
+    if (!cloud) {
+      const ok = initCloud();
+      add('SDK 初始化', ok ? '正常' : (cloudDiag || '失败'), !ok);
+    } else {
+      add('SDK 初始化', '正常');
+    }
+
+    if (cloud) {
+      try {
+        const s = await cloud.auth.getSession();
+        add('当前会话', s && s.data ? ('已登录 ' + ((s.data.user && (s.data.user.name || s.data.user.email)) || '')) : '未登录（正常）');
+      } catch (e) {
+        add('当前会话', '读取失败：' + describeErr(e), true);
+      }
+
+      try {
+        const back = new URL(location.href);
+        back.pathname = '/';
+        for (const k of ['code', 'state', 'provider', 'diag', 'sharecode']) back.searchParams.delete(k);
+        const r = await cloud.auth.signInWithOAuth({ provider: 'workbuddy', redirectTo: back.toString() });
+        if (r && r.error) add('登录授权', '失败：' + describeErr(r.error) + netHint(r.error), true);
+        else add('登录授权', '正常，授权域 ' + new URL(r.data.url).host);
+      } catch (e) {
+        add('登录授权', '异常：' + ((e && e.message) || e) + netHint(e), true);
+      }
+
+      try {
+        const r = await cloud.database.from(SHARE_TABLE).select('share_id').limit(1);
+        add('数据面连通', r.error ? ('失败：' + describeErr(r.error) + netHint(r.error)) : '正常', !!r.error);
+      } catch (e) {
+        add('数据面连通', '异常：' + ((e && e.message) || e) + netHint(e), true);
+      }
+    }
+
+    const bad = rows.filter(r => r.bad);
+    const html = `
+      <div class="diag">
+        <h3>连接诊断 <span class="${bad.length ? 'bad' : 'good'}">${bad.length ? bad.length + ' 项异常' : '全部正常'}</span></h3>
+        <table>${rows.map(r => `<tr class="${r.bad ? 'warn' : ''}"><th>${esc(r.k)}</th><td>${esc(r.v)}</td></tr>`).join('')}</table>
+        <p class="diag-tip">若 endpoint 与站点地址不同源，或登录授权报网络错误，说明 <code>cloud-config.js</code> 里的地址已过期——app.js 本应自动跟随站点域名，检查是否被 <code>endpointPin</code> 固定。</p>
+      </div>`;
+    let box = $('#diagBox');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'diagBox';
+      document.body.appendChild(box);
+    }
+    box.innerHTML = html;
+    box.classList.add('on');
+    try { console.table(rows); } catch (e) {}
+    return rows;
+  }
+
   async function signIn() {
-    if (!cloud) { toast('云服务未就绪，无法登录'); return; }
+    if (!cloud) initCloud();          // 惰性重试，避免首次初始化失败后永久卡死
+    if (!cloud) { toast('登录不可用：' + (cloudDiag || '云服务未就绪')); return; }
     try {
       const back = new URL(location.href);
       back.pathname = '/';
       for (const k of ['code', 'state', 'provider']) back.searchParams.delete(k);
       const res = await cloud.auth.signInWithOAuth({ provider: 'workbuddy', redirectTo: back.toString() });
-      if (res.error) { toast('登录失败：' + res.error.message); return; }
+      if (res.error) { toast('登录失败：' + describeErr(res.error) + netHint(res.error)); return; }
       location.assign(res.data.url);
     } catch (e) {
-      toast('登录失败：' + (e && e.message ? e.message : e));
+      toast('登录失败：' + ((e && e.message) || e) + netHint(e));
     }
   }
 
@@ -428,7 +555,7 @@
           try {
             const r = await handler.call(cloud.auth);
             if (r && r.error) {
-              toast('登录失败：' + r.error.message);
+              toast('登录失败：' + describeErr(r.error) + netHint(r.error));
             } else if (r && r.data) {
               for (const k of ['code', 'state', 'provider']) url.searchParams.delete(k);
               history.replaceState(null, '', url.pathname + (url.search || '') + url.hash);
@@ -1543,6 +1670,7 @@
         else pullCloud(false);
       }
       else if (act === 'selfCheck') cloudSelfCheck();
+      else if (act === 'diag') runDiagnostics();
       else if (act === 'reset') {
         if (!requireAuth('恢复示例数据会覆盖全库，需要登录')) return;
         if (!confirm('将清空当前所有改动，恢复到内置示例数据。此操作不可撤销，建议先备份 JSON。确定继续？')) return;
@@ -1764,11 +1892,13 @@
     const ok = initCloud();
     const params = new URLSearchParams(location.search);
     const sharedId = params.get('s');
+    const wantDiag = params.get('diag') === '1';
 
     if (!ok) {
-      renderAccount();
-      if (sharedId) openSharePage(sharedId);
-      else toast('云服务 SDK 未加载，当前为只读浏览');
+      setSyncState('off', cloudDiag);
+      if (wantDiag) await runDiagnostics();
+      else if (sharedId) openSharePage(sharedId);
+      else toast('云服务不可用：' + (cloudDiag || '未知原因') + '，当前为只读浏览');
       return;
     }
     await restoreAuth();
@@ -1776,6 +1906,7 @@
     else setSyncState('local');
     renderAccount();
 
+    if (wantDiag) { await runDiagnostics(); return; }
     if (sharedId) openSharePage(sharedId);
     else openFromUrl();
   }
