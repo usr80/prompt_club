@@ -1,0 +1,12 @@
+# 云服务真实配置（含应用 ID、接入地址、发布密钥）
+cloud-config.js
+
+# WorkBuddy 本地元数据与工作日志
+.workbuddy/
+*.genie
+
+# 编辑器 / 系统文件
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

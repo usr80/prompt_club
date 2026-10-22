@@ -1,0 +1,684 @@
+:root{
+  --paper:#f5f2ea;
+  --paper-2:#efeade;
+  --card:#fffdf7;
+  --ink:#17160f;
+  --ink-2:#4a4738;
+  --muted:#8a8474;
+  --line:rgba(23,22,15,.13);
+  --line-soft:rgba(23,22,15,.07);
+  --bamboo:#2f6b4f;
+  --cinnabar:#c2542a;
+  --shadow:0 1px 2px rgba(23,22,15,.05),0 8px 24px -12px rgba(23,22,15,.18);
+  --shadow-lg:0 2px 6px rgba(23,22,15,.06),0 24px 60px -20px rgba(23,22,15,.28);
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #fffdf6 0%, transparent 60%),
+    radial-gradient(900px 500px at -10% 100%, #f0eee2 0%, transparent 55%),
+    var(--paper);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-size:14px;
+  line-height:1.6;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+}
+::selection{background:rgba(47,107,79,.18)}
+
+/* ---------- shell ---------- */
+.app{position:relative;z-index:1;display:flex;min-height:100vh}
+
+/* ---------- sidebar ---------- */
+.side{
+  width:262px;flex:0 0 262px;position:sticky;top:0;height:100vh;
+  border-right:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,253,247,.72),rgba(255,253,247,.34));
+  backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;
+  padding:26px 20px 18px;
+}
+.brand{display:flex;gap:11px;align-items:flex-start;margin-bottom:26px}
+.mark{
+  width:34px;height:34px;flex:0 0 34px;border-radius:9px;
+  background:var(--ink);color:#fffdf7;display:grid;place-items:center;
+  font-family:Georgia,"Songti SC",serif;font-size:17px;letter-spacing:-1px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.brand h1{margin:0;font-family:Georgia,"Songti SC","STSong",serif;font-size:15px;font-weight:600;letter-spacing:.06em}
+.brand p{margin:1px 0 0;font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+.side-label{
+  font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;
+  margin:0 0 8px 4px;
+}
+.nav{display:flex;flex-direction:column;gap:1px;margin-bottom:22px}
+.nav-item{
+  display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;
+  border:none;background:transparent;cursor:pointer;text-align:left;width:100%;
+  color:var(--ink-2);font-size:13px;font-family:inherit;line-height:1.4;
+  transition:background .16s,color .16s;
+}
+.nav-item:hover{background:rgba(23,22,15,.045);color:var(--ink)}
+.nav-item.on{background:var(--ink);color:#fffdf7}
+.nav-item.on .num{color:rgba(255,253,247,.6)}
+.dot{width:7px;height:7px;border-radius:2px;flex:0 0 7px}
+.nav-item.on .dot{background:#fffdf7 !important}
+.nav-item .txt{flex:1;letter-spacing:.02em}
+.num{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+
+.side-foot{margin-top:auto;padding-top:16px;border-top:1px solid var(--line-soft)}
+.side-note{font-size:11px;line-height:1.7;color:var(--muted);margin:0}
+.side-note b{color:var(--ink-2);font-weight:600}
+
+/* ---------- main ---------- */
+.main{flex:1;min-width:0;padding:0 0 80px}
+.topbar{
+  position:sticky;top:0;z-index:20;
+  display:flex;gap:14px;align-items:center;
+  padding:16px 34px;
+  background:rgba(245,242,234,.82);
+  backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--line-soft);
+}
+.search{
+  flex:1;max-width:440px;position:relative;
+}
+.search input{
+  width:100%;height:38px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);padding:0 36px 0 34px;font-size:13px;font-family:inherit;
+  color:var(--ink);outline:none;transition:border-color .16s,box-shadow .16s;
+}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{border-color:rgba(47,107,79,.55);box-shadow:0 0 0 3px rgba(47,107,79,.1)}
+.search .ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;display:flex}
+.search kbd{
+  position:absolute;right:9px;top:50%;transform:translateY(-50%);
+  font-size:10px;font-family:inherit;color:var(--muted);border:1px solid var(--line);
+  border-radius:5px;padding:1px 5px;background:var(--paper-2);line-height:1.4;
+}
+.spacer{flex:1}
+.tool{
+  height:34px;padding:0 13px;border-radius:9px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-2);font-size:12px;font-family:inherit;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;transition:.16s;white-space:nowrap;
+}
+.tool:hover{border-color:rgba(23,22,15,.3);color:var(--ink);transform:translateY(-1px)}
+.tool.on{background:var(--ink);color:#fffdf7;border-color:var(--ink)}
+.tool svg{flex:0 0 auto}
+
+/* ---------- hero ---------- */
+.hero{padding:38px 34px 26px;max-width:1280px}
+.eyebrow{font-size:10px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;margin:0 0 12px}
+.hero h2{
+  margin:0;font-family:Georgia,"Songti SC","STSong",serif;font-weight:600;
+  font-size:clamp(26px,3.4vw,40px);line-height:1.18;letter-spacing:-.01em;
+}
+.hero h2 em{font-style:normal;color:var(--bamboo)}
+.lede{margin:12px 0 0;max-width:640px;color:var(--ink-2);font-size:13.5px;line-height:1.75}
+.stats{display:flex;gap:30px;margin-top:24px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:1px}
+.stat b{font-family:Georgia,serif;font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+
+/* ---------- chips ---------- */
+.chipbar{display:flex;gap:7px;flex-wrap:wrap;padding:0 34px 18px;max-width:1280px;align-items:center}
+.chip{
+  height:28px;padding:0 12px;border-radius:99px;border:1px solid var(--line);
+  background:transparent;color:var(--ink-2);font-size:12px;font-family:inherit;cursor:pointer;
+  transition:.15s;display:inline-flex;align-items:center;gap:6px;
+}
+.chip:hover{border-color:rgba(23,22,15,.32);color:var(--ink)}
+.chip.on{background:var(--bamboo);border-color:var(--bamboo);color:#fff}
+.chip .c{font-size:10px;opacity:.65;font-variant-numeric:tabular-nums}
+.chipbar .lab{font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-right:2px}
+
+/* ---------- grid ---------- */
+.grid{
+  display:grid;gap:14px;padding:0 34px;
+  grid-template-columns:repeat(auto-fill,minmax(272px,1fr));
+  max-width:1280px;
+}
+.card{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;cursor:pointer;
+  display:flex;flex-direction:column;
+  transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s,border-color .18s;
+  animation:rise .32s backwards;
+}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(23,22,15,.24)}
+.card:focus-visible{outline:2px solid var(--bamboo);outline-offset:2px}
+.card-top{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 13px;border-bottom:1px solid var(--line-soft);
+  background:linear-gradient(180deg,rgba(23,22,15,.028),transparent);
+}
+.card-top .code{
+  font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  font-size:10.5px;letter-spacing:.06em;color:var(--ink-2);
+}
+.card-top .cat{
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;
+  padding:1px 6px;border-radius:4px;line-height:1.5;
+}
+.card-top .fav{
+  margin-left:auto;border:none;background:transparent;cursor:pointer;padding:2px 1px;
+  color:rgba(23,22,15,.22);font-size:15px;line-height:1;transition:.15s;
+}
+.card-top .fav:hover{color:var(--cinnabar);transform:scale(1.12)}
+.card-top .fav.on{color:var(--cinnabar)}
+.card-body{padding:13px 14px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card-body h3{
+  margin:0;font-size:14.5px;font-weight:600;line-height:1.42;letter-spacing:-.005em;
+  font-family:Georgia,"Songti SC","STSong",serif;
+}
+.card-body p{
+  margin:0;font-size:11.8px;line-height:1.66;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:5px}
+.tag{
+  font-size:10px;padding:1px 7px;border-radius:99px;color:var(--ink-2);
+  background:rgba(23,22,15,.05);line-height:1.6;letter-spacing:.02em;
+}
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:8px 14px 10px;border-top:1px solid var(--line-soft);
+  font-size:10.5px;color:var(--muted);letter-spacing:.03em;
+}
+.card-foot .proj{display:inline-flex;align-items:center;gap:5px}
+.card-foot .proj i{width:5px;height:5px;border-radius:50%;background:currentColor;display:block;opacity:.45}
+
+.empty{
+  display:none;padding:70px 34px;text-align:center;color:var(--muted);
+}
+.empty.on{display:block}
+.empty b{display:block;font-family:Georgia,"Songti SC",serif;font-size:18px;color:var(--ink-2);margin-bottom:6px;font-weight:600}
+
+/* ---------- drawer ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(23,22,15,.34);z-index:40;
+  opacity:0;pointer-events:none;transition:opacity .24s;backdrop-filter:blur(2px);
+}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(620px,94vw);z-index:50;
+  background:var(--paper);border-left:1px solid var(--line);
+  transform:translateX(102%);transition:transform .32s cubic-bezier(.32,.72,.28,1);
+  display:flex;flex-direction:column;box-shadow:var(--shadow-lg);
+}
+.drawer.on{transform:none}
+.d-head{
+  padding:20px 26px 16px;border-bottom:1px solid var(--line);
+  display:flex;gap:12px;align-items:flex-start;flex:0 0 auto;
+  background:linear-gradient(180deg,#fffdf7,rgba(255,253,247,.4));
+}
+.d-head .meta{flex:1;min-width:0}
+.d-head .row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.d-head .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--ink-2);letter-spacing:.06em}
+.d-head .cat{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;padding:1px 6px;border-radius:4px}
+.d-head .proj{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:1px 8px}
+.d-head h2{margin:0;font-family:Georgia,"Songti SC","STSong",serif;font-size:22px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.d-close{
+  width:30px;height:30px;flex:0 0 30px;border-radius:8px;border:1px solid var(--line);
+  background:var(--card);cursor:pointer;display:grid;place-items:center;color:var(--ink-2);transition:.15s;
+}
+.d-close:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.d-body{flex:1;overflow-y:auto;padding:20px 26px 40px}
+.d-body::-webkit-scrollbar{width:9px}
+.d-body::-webkit-scrollbar-thumb{background:rgba(23,22,15,.16);border-radius:9px;border:3px solid var(--paper)}
+
+.sec{margin-bottom:22px}
+.sec-h{
+  display:flex;align-items:center;gap:8px;margin-bottom:9px;
+}
+.sec-h .t{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.sec-h .rule{flex:1;height:1px;background:var(--line-soft)}
+.blk{
+  position:relative;border:1px solid var(--line);border-radius:11px;
+  background:var(--card);padding:13px 14px;font-size:12.6px;line-height:1.85;
+  color:var(--ink);white-space:pre-wrap;word-break:break-word;
+}
+.blk.en{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:11.5px;line-height:1.85;letter-spacing:-.01em;color:#2b2a20}
+.copy-btn{
+  position:absolute;top:8px;right:8px;
+  height:24px;padding:0 9px;border-radius:6px;border:1px solid var(--line);
+  background:var(--paper-2);color:var(--ink-2);font-size:10.5px;font-family:inherit;
+  cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:.15s;
+  opacity:0;transform:translateY(-2px);
+}
+.blk:hover .copy-btn,.copy-btn:focus-visible{opacity:1;transform:none}
+.copy-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.copy-btn.done{background:var(--bamboo);color:#fff;border-color:var(--bamboo);opacity:1}
+
+table.meta{width:100%;border-collapse:collapse;font-size:12px}
+table.meta td{padding:7px 0;border-bottom:1px dashed var(--line-soft);vertical-align:top}
+table.meta tr:last-child td{border-bottom:none}
+table.meta td:first-child{width:96px;color:var(--muted);font-size:11px;letter-spacing:.06em}
+table.meta td:last-child{color:var(--ink);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px}
+
+.d-tags{display:flex;flex-wrap:wrap;gap:6px}
+.d-tags .tag{font-size:11px;padding:2px 9px;background:rgba(47,107,79,.09);color:#245840}
+
+.rel{display:flex;flex-direction:column;gap:6px}
+.rel-item{
+  display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:9px;
+  border:1px solid var(--line);background:transparent;cursor:pointer;text-align:left;
+  font-family:inherit;font-size:12px;color:var(--ink-2);transition:.15s;width:100%;
+}
+.rel-item:hover{background:var(--card);border-color:rgba(23,22,15,.26);color:var(--ink)}
+.rel-item .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;color:var(--muted)}
+.rel-item .arr{margin-left:auto;color:var(--muted);font-size:12px}
+
+.d-foot{
+  flex:0 0 auto;padding:13px 26px;border-top:1px solid var(--line);
+  display:flex;gap:9px;background:rgba(255,253,247,.6);
+}
+.btn{
+  height:36px;padding:0 16px;border-radius:9px;border:1px solid var(--line);
+  background:var(--card);font-family:inherit;font-size:12.5px;color:var(--ink-2);
+  cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s;
+}
+.btn:hover{border-color:rgba(23,22,15,.32);color:var(--ink);transform:translateY(-1px)}
+.btn.primary{background:var(--ink);color:#fffdf7;border-color:var(--ink);flex:1;justify-content:center}
+.btn.primary:hover{background:#000}
+.btn.primary.done{background:var(--bamboo);border-color:var(--bamboo)}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,14px);
+  background:var(--ink);color:#fffdf7;font-size:12.5px;letter-spacing:.03em;
+  padding:9px 18px;border-radius:99px;z-index:60;opacity:0;pointer-events:none;
+  transition:.24s cubic-bezier(.2,.8,.3,1);display:flex;align-items:center;gap:7px;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.5);
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast .k{color:#7fd6a8;font-weight:700}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .app{flex-direction:column}
+  .side{
+    width:100%;flex:none;height:auto;position:static;flex-direction:row;
+    align-items:center;gap:16px;padding:12px 18px;border-right:none;
+    border-bottom:1px solid var(--line);overflow-x:auto;
+  }
+  .brand{margin:0;flex:0 0 auto}
+  .brand p,.side-label,.side-foot{display:none}
+  .nav{flex-direction:row;margin:0;gap:2px}
+  .nav-item{width:auto;white-space:nowrap;padding:6px 9px}
+  .nav-item .num{display:none}
+  .topbar{padding:12px 18px;flex-wrap:wrap}
+  .search{max-width:none;flex:1 1 100%;order:-1}
+  .hero{padding:26px 18px 18px}
+  .chipbar,.grid{padding-left:18px;padding-right:18px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .d-head{padding:16px 18px 13px}
+  .d-head h2{font-size:19px}
+  .d-body{padding:16px 18px 30px}
+  .d-foot{padding:11px 18px}
+}
+@media (max-width:560px){
+  .hero h2{font-size:24px}
+  .grid{grid-template-columns:1fr}
+  .stats{gap:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition-duration:.01ms !important}
+}
+
+/* =========================================================
+   可编辑应用 · 追加样式
+   ========================================================= */
+
+/* 顶栏新按钮 */
+.tool.primary-tool{
+  background:var(--ink);color:#fffdf7;border-color:var(--ink);
+  font-weight:500;padding:0 14px;
+}
+.tool.primary-tool:hover{background:#000;color:#fffdf7;transform:translateY(-1px)}
+.tool .caret{font-size:8px;opacity:.55;margin-left:1px}
+
+/* 下拉菜单 */
+.menu-wrap{position:relative}
+.menu{
+  position:absolute;top:calc(100% + 7px);right:0;min-width:204px;z-index:60;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  box-shadow:0 18px 44px -16px rgba(23,22,15,.35);padding:5px;
+  opacity:0;transform:translateY(-5px) scale(.985);pointer-events:none;
+  transition:.16s cubic-bezier(.2,.8,.3,1);transform-origin:top right;
+}
+.menu.on{opacity:1;transform:none;pointer-events:auto}
+.menu button{
+  display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;border:none;
+  background:transparent;border-radius:7px;cursor:pointer;text-align:left;
+  font-family:inherit;font-size:12.5px;color:var(--ink-2);transition:.13s;
+}
+.menu button:hover{background:rgba(23,22,15,.055);color:var(--ink)}
+.menu button .kbd{margin-left:auto;font-size:10px;color:var(--muted);letter-spacing:.04em}
+.menu hr{border:none;border-top:1px solid var(--line-soft);margin:5px 3px}
+.menu .danger{color:#a8422a}
+.menu .danger:hover{background:rgba(194,84,42,.1);color:#8f3520}
+
+/* 侧栏新建按钮 */
+.new-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;height:36px;margin:0 0 20px;border-radius:9px;
+  border:1px dashed rgba(23,22,15,.28);background:rgba(255,253,247,.6);
+  color:var(--ink-2);font-family:inherit;font-size:12.5px;cursor:pointer;transition:.16s;
+}
+.new-btn:hover{border-color:var(--bamboo);color:var(--bamboo);background:rgba(47,107,79,.06);border-style:solid}
+.new-btn svg{opacity:.7}
+
+/* 存储状态 */
+.store-state{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted);margin-top:10px;letter-spacing:.03em}
+.store-state i{width:6px;height:6px;border-radius:50%;background:var(--bamboo);display:block;flex:0 0 6px}
+.store-state.warn i{background:var(--cinnabar)}
+
+/* 卡片编辑角标 */
+.card .edit-dot{
+  position:absolute;right:10px;bottom:9px;width:22px;height:22px;border-radius:6px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+  display:grid;place-items:center;opacity:0;transform:translateY(3px);
+  transition:.16s;cursor:pointer;z-index:2;
+}
+.card:hover .edit-dot{opacity:1;transform:none}
+.card .edit-dot:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card .edited{
+  position:absolute;top:10px;right:34px;font-size:9px;letter-spacing:.1em;
+  color:var(--bamboo);text-transform:uppercase;opacity:.85;
+}
+
+/* ---------- 编辑表单 ---------- */
+.form{display:flex;flex-direction:column;gap:15px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f > span{
+  font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+}
+.f > span em{font-style:normal;color:var(--cinnabar);font-size:10px;letter-spacing:0}
+.f input[type=text],.f input[type=search],.f textarea,.f select,.mrow input{
+  width:100%;border:1px solid var(--line);border-radius:9px;background:var(--card);
+  padding:9px 11px;font-family:inherit;font-size:13px;color:var(--ink);
+  outline:none;transition:border-color .15s,box-shadow .15s;line-height:1.7;
+}
+.f input:focus,.f textarea:focus,.f select:focus,.mrow input:focus{
+  border-color:rgba(47,107,79,.6);box-shadow:0 0 0 3px rgba(47,107,79,.1);
+}
+.f textarea{resize:vertical;min-height:64px}
+.f textarea.mono,.f input.mono{
+  font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  font-size:11.8px;line-height:1.85;
+}
+.f .hint{font-size:10.5px;color:var(--muted);letter-spacing:.02em;margin-top:-2px}
+.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* 分类选择 */
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{
+  height:28px;padding:0 11px;border-radius:99px;border:1px solid var(--line);
+  background:transparent;color:var(--ink-2);font-family:inherit;font-size:12px;
+  cursor:pointer;transition:.14s;display:inline-flex;align-items:center;gap:5px;
+}
+.seg button:hover{border-color:rgba(23,22,15,.3);color:var(--ink)}
+.seg button.on{color:#fff;border-color:transparent}
+.seg button .d{width:6px;height:6px;border-radius:2px;background:currentColor;opacity:.85}
+
+/* 参数行 */
+.mrow{display:grid;grid-template-columns:118px 1fr 26px;gap:7px;margin-bottom:7px;align-items:center}
+.mrow .mx{
+  width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:transparent;
+  color:var(--muted);cursor:pointer;font-size:13px;line-height:1;transition:.14s;
+}
+.mrow .mx:hover{background:rgba(194,84,42,.12);border-color:rgba(194,84,42,.4);color:#a8422a}
+.add-row{
+  align-self:flex-start;height:26px;padding:0 10px;border-radius:7px;
+  border:1px dashed var(--line);background:transparent;color:var(--muted);
+  font-family:inherit;font-size:11.5px;cursor:pointer;transition:.14s;margin-top:2px;
+}
+.add-row:hover{border-color:var(--bamboo);color:var(--bamboo);border-style:solid}
+
+/* 抽屉内模式切换 */
+.d-head .modes{display:flex;gap:5px;margin-left:auto;align-items:center}
+.d-ico{
+  width:30px;height:30px;flex:0 0 30px;border-radius:8px;border:1px solid var(--line);
+  background:var(--card);cursor:pointer;display:grid;place-items:center;color:var(--ink-2);transition:.15s;
+}
+.d-ico:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.d-ico.danger:hover{background:#a8422a;border-color:#a8422a;color:#fff}
+.d-ico.confirming{background:#a8422a;border-color:#a8422a;color:#fff;width:auto;padding:0 10px;font-size:11px;font-family:inherit}
+.d-ico.on-fav{color:var(--cinnabar);border-color:rgba(194,84,42,.45)}
+
+.btn.ghost{flex:0 0 auto}
+.btn.danger{color:#a8422a;border-color:rgba(194,84,42,.35)}
+.btn.danger:hover{background:rgba(194,84,42,.1);border-color:#a8422a;color:#8f3520}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* 空状态下的新建引导 */
+.empty .go{
+  margin-top:14px;height:34px;padding:0 16px;border-radius:9px;border:1px solid var(--ink);
+  background:var(--ink);color:#fffdf7;font-family:inherit;font-size:12.5px;cursor:pointer;
+}
+.empty .go:hover{background:#000}
+
+/* 表单错误提示 */
+.f-err{
+  display:none;align-items:center;gap:6px;padding:8px 11px;border-radius:8px;
+  background:rgba(194,84,42,.09);border:1px solid rgba(194,84,42,.28);
+  color:#8f3520;font-size:11.5px;line-height:1.5;
+}
+.f-err.on{display:flex}
+
+/* 保存状态点 */
+.saved-flash{
+  position:fixed;top:18px;left:50%;transform:translate(-50%,-14px);opacity:0;
+  background:var(--bamboo);color:#fff;font-size:12px;padding:7px 16px;border-radius:99px;
+  z-index:70;transition:.24s;pointer-events:none;
+}
+.saved-flash.on{opacity:1;transform:translate(-50%,0)}
+
+/* toast 里的撤销按钮 */
+.toast .undo{
+  margin-left:6px;padding:2px 9px;border-radius:99px;border:1px solid rgba(255,255,255,.35);
+  background:transparent;color:#fff;font-family:inherit;font-size:11.5px;cursor:pointer;
+}
+.toast .undo:hover{background:rgba(255,255,255,.16)}
+
+@media (max-width:560px){
+  .f-row2{grid-template-columns:1fr}
+  .mrow{grid-template-columns:96px 1fr 26px}
+}
+
+/* ---------- 云同步账号区 ---------- */
+.account{
+  margin-top:14px;padding:11px 12px;border-radius:10px;
+  border:1px solid var(--line);background:rgba(255,253,247,.7);
+}
+.acc-row{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.acc-dot{
+  width:6px;height:6px;border-radius:50%;background:#b7b1a1;flex:0 0 6px;
+  transition:background .2s;
+}
+.acc-text{
+  font-size:11px;color:var(--ink-2);letter-spacing:.02em;line-height:1.4;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;
+}
+.account.online .acc-dot{background:var(--bamboo);box-shadow:0 0 0 3px rgba(47,107,79,.14)}
+.account.busy .acc-dot{background:#c98a2a;animation:pulse 1.1s infinite}
+.account.error .acc-dot{background:var(--cinnabar);box-shadow:0 0 0 3px rgba(194,84,42,.12)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.acc-btn{
+  width:100%;height:30px;border-radius:7px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink-2);font-family:inherit;font-size:11.5px;
+  cursor:pointer;transition:.15s;letter-spacing:.02em;
+}
+.acc-btn:hover{border-color:var(--bamboo);color:var(--bamboo)}
+.acc-btn.primary{background:var(--ink);border-color:var(--ink);color:#fffdf7}
+.acc-btn.primary:hover{background:#000;color:#fffdf7}
+.acc-btn.ghost{background:transparent}
+.acc-btn:disabled{opacity:.5;cursor:not-allowed}
+.acc-hint{font-size:10px;line-height:1.6;color:var(--muted);margin:7px 0 0;letter-spacing:.02em}
+
+@media (max-width:980px){
+  .account{display:none}
+}
+
+/* =========================================================
+   私有 / 共享 · 追加样式
+   ========================================================= */
+
+/* 只读态：未登录 */
+body.readonly .new-btn{
+  background:transparent;border:1px dashed rgba(23,22,15,.24);color:var(--muted);box-shadow:none;
+}
+body.readonly .new-btn:hover{background:rgba(23,22,15,.035);color:var(--ink-2);transform:none}
+body.readonly .card{cursor:default}
+body.readonly .new-btn svg{opacity:.6}
+
+/* 移动端账号入口 */
+.acc-chip{display:none}
+@media (max-width:980px){
+  .acc-chip{
+    display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;
+    border-radius:9px;border:1px solid var(--line);background:var(--card);
+    font-size:12px;font-family:inherit;color:var(--ink-2);cursor:pointer;white-space:nowrap;
+  }
+  .acc-chip.online{border-color:rgba(47,107,79,.42);color:var(--bamboo)}
+  .acc-chip i{width:6px;height:6px;border-radius:50%;background:var(--muted);flex:0 0 6px}
+  .acc-chip.online i{background:var(--bamboo)}
+  .acc-chip.busy i{background:#c98a2a;animation:pulse 1.1s infinite}
+}
+
+/* 卡片上的共享标记 */
+.shared-flag{
+  font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--bamboo);border:1px solid rgba(47,107,79,.35);
+  background:rgba(47,107,79,.07);border-radius:4px;padding:1px 5px;line-height:1.5;
+}
+
+/* ---------- 共享管理面板 ---------- */
+.sheet-scrim{
+  position:fixed;inset:0;background:rgba(23,22,15,.36);z-index:70;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.sheet-scrim.on{opacity:1;pointer-events:auto}
+
+.sheet{
+  position:fixed;left:50%;top:50%;z-index:71;
+  width:min(520px,calc(100vw - 32px));max-height:82vh;overflow:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  box-shadow:var(--shadow-lg);padding:22px 22px 20px;
+  transform:translate(-50%,-47%) scale(.985);opacity:0;pointer-events:none;
+  transition:.22s cubic-bezier(.2,.8,.3,1);
+}
+.sheet.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.sheet .sh-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:4px}
+.sheet h3{
+  margin:0;font-family:Georgia,"Songti SC","STSong",serif;
+  font-size:16px;font-weight:600;letter-spacing:.03em;flex:1;line-height:1.4;
+}
+.sheet .sh-close{
+  border:none;background:transparent;color:var(--muted);cursor:pointer;
+  padding:3px;border-radius:6px;display:grid;place-items:center;margin:-3px -3px 0 0;
+}
+.sheet .sh-close:hover{background:rgba(23,22,15,.06);color:var(--ink)}
+.sheet .sh-sub{
+  font-size:12px;color:var(--ink-2);line-height:1.7;margin:6px 0 14px;
+}
+.sheet .sh-sub b{font-weight:600}
+.sheet .sh-label{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);display:block;margin:0 0 6px;
+}
+.share-link{display:flex;gap:8px}
+.share-link input{
+  flex:1;min-width:0;height:36px;border-radius:9px;border:1px solid var(--line);
+  background:var(--paper-2);padding:0 10px;color:var(--ink-2);
+  font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  font-size:11.5px;outline:none;
+}
+.share-link input:focus{border-color:rgba(47,107,79,.5)}
+.sheet-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.sheet-actions .btn{height:34px;font-size:12px;padding:0 13px}
+.share-tip{
+  margin:12px 0 0;padding:10px 12px;border-radius:9px;
+  background:rgba(47,107,79,.055);border:1px solid rgba(47,107,79,.16);
+  font-size:11.5px;line-height:1.75;color:var(--ink-2);
+}
+.share-tip b{color:var(--bamboo)}
+
+/* ---------- 共享只读页 ---------- */
+.share-page{
+  position:fixed;inset:0;z-index:80;overflow:auto;display:none;
+  background:
+    radial-gradient(900px 480px at 78% -8%, #fffdf6 0%, transparent 62%),
+    var(--paper);
+}
+.share-page.on{display:block}
+.share-page-in{max-width:780px;margin:0 auto;padding:30px 22px 80px}
+
+.sp-bar{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:15px;border-bottom:1px solid var(--line);margin-bottom:24px;
+}
+.sp-brand{display:flex;align-items:center;gap:9px}
+.sp-brand .mk{
+  width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fffdf7;
+  display:grid;place-items:center;font-family:Georgia,serif;font-size:13px;
+}
+.sp-brand .nm{
+  font-family:Georgia,"Songti SC","STSong",serif;font-size:13px;
+  letter-spacing:.06em;font-weight:600;
+}
+.sp-pill{
+  font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);border-radius:99px;padding:2px 8px;
+}
+.sp-close{
+  margin-left:auto;height:30px;padding:0 11px;border-radius:8px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+  font-size:12px;font-family:inherit;cursor:pointer;
+}
+.sp-close:hover{border-color:rgba(23,22,15,.3);color:var(--ink)}
+
+.sp-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  box-shadow:var(--shadow);padding:26px 26px 22px;
+}
+.sp-head .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.sp-head h1{
+  margin:0 0 6px;font-family:Georgia,"Songti SC","STSong",serif;
+  font-size:24px;font-weight:600;line-height:1.35;letter-spacing:.01em;
+}
+.sp-owner{
+  display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:14px;
+  border-top:1px dashed var(--line-soft);font-size:11.5px;color:var(--muted);
+}
+.sp-owner b{color:var(--ink-2);font-weight:600}
+.sp-foot{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.sp-foot .btn{height:38px;font-size:12.5px}
+.sp-note{
+  margin:18px 0 0;font-size:11px;line-height:1.75;color:var(--muted);text-align:center;
+}
+.sp-loading{
+  display:grid;place-items:center;min-height:60vh;color:var(--muted);font-size:13px;
+}
+.sp-err{
+  max-width:460px;margin:14vh auto 0;text-align:center;padding:0 22px;
+}
+.sp-err b{display:block;font-family:Georgia,"Songti SC",serif;font-size:19px;margin-bottom:8px}
+.sp-err span{font-size:12.5px;color:var(--muted);line-height:1.8}
+
+@media (max-width:560px){
+  .share-page-in{padding:18px 14px 60px}
+  .sp-card{padding:20px 18px 18px}
+  .sp-head h1{font-size:20px}
+  .sheet{padding:18px 16px 16px}
+}

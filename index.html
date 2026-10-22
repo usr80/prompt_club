@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROMPT ATLAS · 提示词汇总分类</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+  <!-- ============ 侧栏 ============ -->
+  <aside class="side">
+    <div class="brand">
+      <div class="mark">A</div>
+      <div>
+        <h1>提示词图谱</h1>
+        <p>Prompt Atlas</p>
+      </div>
+    </div>
+
+    <button class="new-btn" id="newBtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span id="newBtnLabel">新建条目</span>
+    </button>
+
+    <div class="side-label">分类 Categories</div>
+    <nav class="nav" id="nav"></nav>
+
+    <div class="side-label">项目 Projects</div>
+    <nav class="nav" id="navProj" style="margin-bottom:0"></nav>
+
+    <div class="side-foot">
+      <p class="side-note">
+        <b>用法：</b>中文提示词用于即梦 / 可灵 / 通义万相；英文提示词用于 Midjourney / Seedance / Veo。<br>
+        <b>视频：</b>统一按 <b>12 秒</b> 一段拆分，每段单镜头。<br>
+        <b>快捷键：</b><b>/</b> 搜索，<b>Esc</b> 关闭，编辑时 <b>Ctrl+S</b> 保存。
+      </p>
+      <div class="account" id="account">
+        <div class="acc-row">
+          <i class="acc-dot"></i>
+          <span class="acc-text" id="accText">本地模式</span>
+        </div>
+        <button class="acc-btn" id="accBtn" type="button">登录后编辑</button>
+        <p class="acc-hint" id="accHint">编辑需登录；浏览、复制无需登录</p>
+      </div>
+      <div class="store-state" id="storeState"><i></i><span>本地存储就绪</span></div>
+    </div>
+  </aside>
+
+  <!-- ============ 主区 ============ -->
+  <main class="main">
+    <div class="topbar">
+      <div class="search">
+        <span class="ico">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </span>
+        <input id="q" type="search" placeholder="搜索标题 / 提示词内容 / 标签 / 编号…" autocomplete="off" spellcheck="false">
+        <kbd>/</kbd>
+      </div>
+      <div class="spacer"></div>
+
+      <button class="acc-chip" id="accChip" type="button" title="登录状态"><i></i>登录</button>
+      <button class="tool primary-tool" id="newBtn2">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span id="newBtn2Label">新建</span>
+      </button>
+      <button class="tool" id="favFilter">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.9 6 6.1.9-4.5 4.3 1.1 6.1L12 17.3 6.4 20.3l1.1-6.1L3 9.9 9.1 9z"/></svg>
+        收藏
+      </button>
+      <div class="menu-wrap">
+        <button class="tool" id="dataBtn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+        数据 <span class="caret">▼</span>
+      </button>
+        <div class="menu" id="dataMenu">
+          <button data-act="exportMd"><span>导出 Markdown</span><span class="kbd">当前筛选</span></button>
+          <hr>
+          <button data-act="syncNow"><span>立即同步云端</span><span class="kbd" id="syncHint">未登录</span></button>
+          <button data-act="selfCheck"><span>云同步自检</span><span class="kbd">写读删</span></button>
+          <hr>
+          <button data-act="exportJson"><span>备份为 JSON</span><span class="kbd">全库</span></button>
+          <button data-act="importJson"><span>从 JSON 导入</span><span class="kbd">覆盖</span></button>
+          <hr>
+          <button data-act="reset" class="danger"><span>恢复示例数据</span><span class="kbd">清空</span></button>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <p class="eyebrow" id="eyebrow">角色 · 场景 · 道具 · 视频 · 风格 · 镜头 · 特效 · 负面</p>
+      <h2>把散落的提示词<br>收进一张<em>可编辑的图谱</em></h2>
+      <p class="lede" id="lede">按资产类型分类归档：每条含中文与英文两版提示词、生成参数与负面提示词。所有改动保存在本机浏览器，可随时导出 JSON 备份或迁移到别的设备。</p>
+      <div class="stats">
+        <div class="stat"><b id="sTotal">0</b><span>条提示词</span></div>
+        <div class="stat"><b id="sCat">0</b><span>个分类</span></div>
+        <div class="stat"><b id="sFav">0</b><span>已收藏</span></div>
+        <div class="stat"><b id="sEdited">0</b><span>条自行编辑</span></div>
+      </div>
+    </section>
+
+    <div class="chipbar" id="chipbar"></div>
+    <div class="grid" id="grid"></div>
+
+    <div class="empty" id="empty">
+      <b id="emptyTitle">没有匹配的条目</b>
+      <span id="emptyText">换个关键词，或清空筛选条件再试。</span>
+      <div style="margin-top:4px"><button class="go" id="emptyNew">＋ 新建一条</button></div>
+    </div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="d-head" id="dHead"></div>
+  <div class="d-body" id="dBody"></div>
+  <div class="d-foot" id="dFoot"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept="application/json,.json" style="display:none">
+
+<!-- 共享管理面板 -->
+<div class="sheet-scrim" id="sheetScrim"></div>
+<div class="sheet" id="shareSheet" aria-hidden="true"></div>
+
+<!-- 共享只读页（?s=xxx） -->
+<div class="share-page" id="sharePage" aria-hidden="true">
+  <div class="share-page-in" id="sharePageIn"></div>
+</div>
+
+<script src="cloud-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
