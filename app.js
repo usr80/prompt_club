@@ -1455,7 +1455,7 @@
     toast('已备份 ' + store.items.length + ' 条 JSON');
   }
 
-  function importJson(file) {
+  function importJson(file, merge) {
     const reader = new FileReader();
     reader.onload = async () => {
       try {
@@ -1464,6 +1464,27 @@
         if (!Array.isArray(items) || !items.length) throw new Error('文件里没有条目数组');
         items = items.filter(it => it && it.id && it.cat);
         if (!items.length) throw new Error('条目缺少 id / cat 字段');
+
+        if (merge) {
+          const exist = new Set(store.items.map(it => it.id));
+          const fresh = items.filter(it => !exist.has(it.id));
+          const skipped = items.length - fresh.length;
+          if (!fresh.length) { toast('这 ' + items.length + ' 条都已存在，没有需要新增的'); return; }
+          if (!confirm('追加导入 ' + fresh.length + ' 条' + (skipped ? '（同编号的 ' + skipped + ' 条会跳过，不覆盖你现有内容）' : '') + '。继续？')) return;
+          store.items = store.items.concat(fresh);
+          store.updatedAt = Date.now();
+          persist();
+          refresh();
+          closeDrawer(true);
+          if (cloudMode) {
+            const r = await pushAll();
+            toast(r.ok ? '已追加 ' + fresh.length + ' 条并同步到云端' : '已追加本机，云端同步失败：' + r.error);
+          } else {
+            toast('已追加 ' + fresh.length + ' 条' + (skipped ? '，跳过 ' + skipped + ' 条重复' : ''));
+          }
+          return;
+        }
+
         if (!confirm('导入将覆盖当前 ' + store.items.length + ' 条数据，共读入 ' + items.length + ' 条。继续？')) return;
         store.items = items;
         store.updatedAt = Date.now();
@@ -1511,7 +1532,12 @@
       const act = menuItem.dataset.act;
       if (act === 'exportMd') exportMarkdown();
       else if (act === 'exportJson') exportJson();
-      else if (act === 'importJson') { if (requireAuth('导入会改动数据，需要登录')) $('#fileInput').click(); }
+      else if (act === 'importJson') {
+        if (requireAuth('导入会改动数据，需要登录')) { $('#fileInput').dataset.mode = 'replace'; $('#fileInput').click(); }
+      }
+      else if (act === 'importMerge') {
+        if (requireAuth('导入会改动数据，需要登录')) { $('#fileInput').dataset.mode = 'merge'; $('#fileInput').click(); }
+      }
       else if (act === 'syncNow') {
         if (!session) { toast('请先登录，再同步云端'); }
         else pullCloud(false);
@@ -1674,7 +1700,7 @@
   $('#sheetScrim').addEventListener('click', closeShareSheet);
   $('#fileInput').addEventListener('change', e => {
     const f = e.target.files && e.target.files[0];
-    if (f) importJson(f);
+    if (f) importJson(f, e.target.dataset.mode === 'merge');
     e.target.value = '';
   });
 

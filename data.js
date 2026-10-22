@@ -71,6 +71,94 @@ window.SEED = [
   negative:'夸张眉毛，卡通表情符号，换脸，服装变化，背景变化，光照不一致，文字标注，水印',
   related:['CH-01','CH-04','SC-06']
 },
+{
+  id:'CH-07', cat:'character', project:'通用',
+  title:'清冷系美女 · 窗前侧逆光半身',
+  summary:'东亚女性半身像，单眼皮、素颜肌理，85mm f/1.8 浅景深，侧逆光把发丝打成半透明，拒绝网红磨皮。',
+  tags:['美女','人像','侧逆光','85mm','清冷'],
+  zh:`二十五岁东亚女性半身肖像，鹅蛋脸、单眼皮、眉骨浅淡，黑色长发自然垂到肩前，几缕被风带起；素颜或极淡妆，唇色偏冷调玫瑰，皮肤有真实毛孔与细小绒毛，不磨皮；穿米白色丝质衬衫，领口松一粒扣，锁骨隐约可见；站在落地窗前，侧逆光从左上 45 度进入，发丝边缘被打成半透明，面部右侧留自然阴影；背景是虚化的城市天际线，冷灰调；85mm 定焦，f/1.8 浅景深，柔和对比，电影感色彩分级，情绪安静克制，视线看向窗外。`,
+  en:`half-body portrait of a 25-year-old East Asian woman, oval face, monolid eyes, faint brow ridge, long black hair falling naturally over one shoulder with a few strands lifted by wind, bare skin with visible pores and fine vellus hair, no retouching, pale cool-rose lips, off-white silk shirt with one button open, standing by a floor-to-ceiling window, 45-degree side-backlight from upper left turning the hair edges translucent, natural shadow on the right side of the face, blurred city skyline, cool grey grade, 85mm prime at f/1.8, shallow depth of field, soft contrast, cinematic color grading, quiet restrained mood, gaze out the window --ar 4:5 --style raw`,
+  meta:[['模型','Midjourney v6 / Seedream 4'],['比例','4:5'],['镜头','85mm f/1.8'],['光位','侧逆光 45° 左上'],['用途','角色定妆 / 海报'],['注意','禁止磨皮']],
+  negative:'网红脸，过度磨皮，塑料皮肤，大眼滤镜，浓妆，锥子脸，暴露服装，畸形手指，多余光源，文字，水印',
+  related:['CH-09','CH-11','ST-01']
+},
+{
+  id:'CH-08', cat:'character', project:'通用',
+  title:'甜系女生 · 咖啡馆近景抓拍',
+  summary:'笑起来有梨涡的邻家感女生，午后窗光 + 50mm 抓拍，倾身向前的自然瞬间，皮肤红润不摆拍。',
+  tags:['美女','甜系','抓拍','50mm','日常'],
+  zh:`二十二岁甜系女生近景，圆脸、笑起来有明显梨涡、眼睛弯成月牙，齐刘海微卷短发；浅蓝色针织开衫配白色圆领 T 恤，戴一条细银链；坐在咖啡馆窗边，双手捧着拿铁，杯壁挂着水雾；午后侧光透过玻璃在脸上形成柔和高光，鼻梁与颧骨有一点自然油光；背景是虚化的木质吧台与绿植；50mm 视角，上身微微前倾靠近镜头，视线看向镜头外 15 度，抓拍感强；皮肤自然红润，笑容真实，有细碎发丝贴在脸侧。`,
+  en:`close-up of a 22-year-old sweet-style girl, round face, visible dimples when smiling, eyes curved into crescents, slightly wavy short hair with blunt bangs, light blue knit cardigan over a white crew-neck tee, thin silver chain, sitting by a cafe window holding a latte with condensation on the glass, afternoon side light through the window creating soft highlights on the cheeks and a hint of natural shine on the nose, blurred wooden bar and plants behind, 50mm perspective, upper body leaning slightly toward the lens, gaze 15 degrees off camera, candid snapshot feel, naturally flushed skin, genuine smile, fine stray hairs against the cheek --ar 4:5 --style raw`,
+  meta:[['模型','Midjourney v6'],['比例','4:5'],['镜头','50mm f/2'],['光位','窗边侧光'],['用途','日常人像 / 参考图']],
+  negative:'网红脸，夸张美颜，皮肤塑料感，假笑，牙齿畸形，浓妆，暴露，多余手指，背景杂乱高饱和，文字，水印',
+  related:['CH-07','CH-10']
+},
+{
+  id:'CH-09', cat:'character', project:'通用',
+  title:'都市女性 · 雨夜街头全身',
+  summary:'酒红西装 + 湿地面霓虹倒影，35mm 街拍全身回头，环境光为主，都市冷感。',
+  tags:['美女','街拍','夜景','35mm','都市'],
+  zh:`二十八岁都市职场女性全身竖构图，黑色短发微卷，酒红色西装外套配同色直筒长裤，手提一只深棕皮质公文包，脚踩低跟短靴；站在雨后的城市街口，霓虹招牌的倒影落在湿沥青上；侧身回头看向镜头，风衣下摆被风带起一点；35mm 街拍视角，略低机位，f/2 光圈，背景霓虹化成柔和光斑；以环境光为主，面部由街灯侧照，皮肤质感真实，情绪从容克制。`,
+  en:`full-body vertical shot of a 28-year-old urban professional woman, short wavy black hair, burgundy blazer with matching straight trousers, dark brown leather briefcase, low-heel ankle boots, standing at a city crossing after rain with neon signs reflected on wet asphalt, turning back toward the camera over one shoulder, coat hem lifted slightly by wind, 35mm street photography perspective at a slightly low angle, f/2, background neon dissolved into soft bokeh, ambient light only with street lamp side-lighting the face, realistic skin, composed and reserved mood --ar 2:3 --style raw`,
+  meta:[['模型','Midjourney v6'],['比例','2:3'],['镜头','35mm f/2'],['光位','环境街灯'],['用途','街拍 / 封面']],
+  negative:'白天光，干燥地面，摆拍僵硬，网红脸，过度磨皮，低俗姿势，背景过曝，文字招牌可读，水印',
+  related:['CH-07','CH-12']
+},
+{
+  id:'CH-10', cat:'character', project:'通用',
+  title:'清隽少年 · 走廊逆光半身',
+  summary:'白衬衫、干净眉眼，逆光把发丝勾成金边，面部靠环境反射补光，少年感不做作。',
+  tags:['帅哥','少年感','逆光','85mm','白衬衫'],
+  zh:`二十岁男生半身像，清爽短发，眉眼干净、下颌线清晰但不锋利，穿宽松白色棉衬衫，袖子随意挽到小臂，露出腕骨；站在教学楼走廊尽头，逆光从背后窗户进入，发丝与肩线被勾出一圈金色轮廓光，面部靠两侧墙面反射的环境光补亮，不是死黑剪影；85mm，f/2，背景走廊纵深虚化，空气里有一点浮尘；皮肤通透但保留质感，眼神平静看向镜头偏左，唇部自然，不笑或极淡的笑。`,
+  en:`half-body portrait of a 20-year-old young man, neat short hair, clean brows and soft jawline, oversized white cotton shirt with sleeves casually rolled to the forearms, standing at the end of a school corridor, backlight from the windows behind him rimming the hair and shoulders in gold, face lifted by ambient bounce from the walls rather than falling into silhouette, 85mm at f/2, corridor depth blurred, faint dust in the air, translucent skin with real texture, calm gaze slightly left of the lens, natural lips, no smile or a very faint one --ar 4:5 --style raw`,
+  meta:[['模型','Midjourney v6 / Seedream 4'],['比例','4:5'],['镜头','85mm f/2'],['光位','逆光 + 环境补光'],['用途','角色定妆 / 海报']],
+  negative:'浓妆，油腻发型，夸张肌肉，过度磨皮，死黑剪影，五官失真，中年感，暴露，多余手指，水印',
+  related:['CH-12','ST-01']
+},
+{
+  id:'CH-11', cat:'character', project:'通用',
+  title:'成熟男性 · 硬光侧脸特写',
+  summary:'单侧裸灯 90 度硬光，明暗交界线锋利，毛孔与细纹全部保留，低饱和电影质感。',
+  tags:['帅哥','成熟','硬光','特写','低饱和'],
+  zh:`三十五岁男性侧脸特写，短寸或向后梳理的背头，下颌线锋利，胡茬修剪整齐，眉骨与鼻梁在面颊上投下清晰阴影；穿深灰色高领毛衣，颈部线条清晰；单侧硬光从左 90 度打（裸灯加蜂巢），右侧完全落入深阴影，明暗交界线利落；低饱和偏冷的色彩，皮肤纹理全部保留——毛孔、细纹、唇纹、剃须的轻微红点；100mm 微距质感，背景纯黑，画面下方留少量空间。`,
+  en:`profile close-up of a 35-year-old man, buzz cut or slicked-back hair, sharp jawline, neatly trimmed stubble, brow and nose casting crisp shadows across the cheek, dark grey turtleneck, defined neck, single hard light from 90 degrees left with a bare strobe and honeycomb grid, the right side falling into deep shadow with a clean terminator line, desaturated cool grade, all skin texture preserved including pores, fine lines, lip texture and faint razor burn, 100mm macro feel, pure black background, negative space at the bottom --ar 4:5 --style raw`,
+  meta:[['模型','Midjourney v6'],['比例','4:5'],['镜头','100mm'],['光位','单侧硬光 90°'],['用途','角色定妆 / 杂志感']],
+  negative:'柔光罩平光，过度磨皮，油光满面，微笑，彩色背景，塑料皮肤，夸张肌肉，五官失真，文字，水印',
+  related:['CH-07','CM-02']
+},
+{
+  id:'CH-12', cat:'character', project:'通用',
+  title:'运动型男生 · 黄昏球场全身',
+  summary:'低机位仰拍，汗湿背心、逆光把汗珠打成亮点，肌肉紧实但不夸张，橙红天空。',
+  tags:['帅哥','运动','仰拍','黄昏','逆光'],
+  zh:`二十四岁运动型男生全身，短寸头，汗湿的白色运动背心贴在背上，深色运动短裤、护腕、磨损的球鞋；站在黄昏的室外球场，单手转着篮球，肩背线条紧实但不夸张；低机位仰拍，逆光把汗珠和防守网的边缘打成亮点，背景是虚化的铁丝网与橙红渐变天空；35mm，f/2.8，硬朗自然光，影子拉长投在地面；表情放松，呼吸带一点起伏，看向画面外的球场另一侧。`,
+  en:`full-body shot of a 24-year-old athletic man, buzz cut, sweat-soaked white tank top clinging to his back, dark shorts, wristband, worn sneakers, standing on an outdoor court at dusk spinning a basketball in one hand, lean defined shoulders without exaggeration, low-angle shot, backlight turning sweat beads and chain-link edges into highlights, blurred fence and orange-to-red gradient sky behind, 35mm at f/2.8, hard natural light, long shadow on the ground, relaxed expression, slight breathing motion, gaze off toward the far side of the court --ar 2:3 --style raw`,
+  meta:[['模型','Midjourney v6 / Seedream 4'],['比例','2:3'],['镜头','35mm f/2.8'],['光位','逆光 / 黄昏'],['用途','角色定妆 / 运动广告']],
+  negative:'肌肉夸张，超级英雄体态，干净无汗，卡通比例，室内光，平光，摆拍僵硬，多余手指，水印',
+  related:['CH-10','CH-14']
+},
+{
+  id:'CH-13', cat:'character', project:'通用',
+  title:'POV · 男友视角拍女友（近距离）',
+  summary:'第一人称手机近拍：她盘腿坐在床沿抬头笑、伸手来抢手机，24mm 广角近距离畸变，自己一只手入画。',
+  tags:['POV','第一人称','女友视角','手机摄影','近距离'],
+  zh:`第一人称男友视角，手机近距离拍摄：女生盘腿坐在床沿，穿宽松白 T 和棉质短裤，头发松松扎起、几缕碎发落在脸侧，抬头冲镜头笑，一只手伸向镜头想拿手机，指尖略微虚焦；镜头高度与她眼睛齐平，等效 24mm 广角，近距离产生轻微透视变形，脸略大、肩膀略小；拍摄者的一只手从画面右下角入画，只露出手指与手背；室内傍晚暖光混合窗外冷光，床单有明显褶皱，墙角亮着一盏小夜灯；真实手机摄影质感——轻微噪点、HDR 压住高光、肤色自然红润，构图随意不摆拍，亲密但克制。`,
+  en:`first-person boyfriend POV, close-range phone snapshot: a young woman sitting cross-legged on the edge of the bed in an oversized white tee and cotton shorts, hair loosely tied with a few strands on her cheek, looking up and laughing at the camera, one hand reaching toward the lens to grab the phone with fingertips slightly out of focus, camera at her eye level, 24mm equivalent wide angle causing mild close-range perspective distortion with a slightly larger face and smaller shoulders, the shooter hand entering from the lower right corner showing only fingers and the back of the hand, warm indoor evening light mixed with cool window light, wrinkled bedsheets, a small night light in the corner, authentic phone-photo look with slight noise, HDR highlight rolloff and naturally flushed skin, casual unposed framing, intimate but restrained --ar 3:4 --style raw`,
+  meta:[['模型','Midjourney v6 / Seedream 4'],['比例','3:4'],['视角','第一人称 24mm 广角'],['距离','40–60cm'],['光位','室内暖光 + 窗光'],['用途','情侣日常 / 故事板']],
+  negative:'三脚架视角，第三人称，多余手臂，手指畸形，六指，浓妆，暴露，色情暗示，网红滤镜，塑料皮肤，镜头穿模，文字，水印',
+  related:['CH-14','VD-09','ST-01']
+},
+{
+  id:'CH-14', cat:'character', project:'通用',
+  title:'POV · 女友视角拍男友（近距离）',
+  summary:'第一人称俯拍：他窝在沙发里抬眼笑，26mm 略俯视，自己端着咖啡的手入画，带一点手抖模糊。',
+  tags:['POV','第一人称','男友视角','手机摄影','居家'],
+  zh:`第一人称女友视角，手机近距离拍男友：他窝在沙发里，穿灰色连帽卫衣、袖口堆在小臂，头发有点乱，正低头看手机，被叫到名字后抬眼看向镜头，嘴角带一点笑；镜头距离约 60cm，等效 26mm，略微俯视（拍摄者站着），画面有一点倾斜；左下角入画一只端着陶瓷杯的手，杯口有热气；傍晚室内只开着暖色落地灯，背景是凌乱的书架与搭在扶手上的毛毯；真实手机照片质感，轻微手抖造成的边缘模糊，肤色自然不磨皮，画面不完美但有生活气。`,
+  en:`first-person girlfriend POV, close-range phone portrait of the boyfriend: he is slouched into the sofa in a grey hoodie with sleeves bunched at the forearms, hair a little messy, looking down at his phone, then glancing up at the lens with a faint smile after being called, camera about 60cm away at 26mm equivalent with a slight downward tilt since the shooter is standing, frame slightly canted, a hand holding a ceramic mug entering from the lower left with steam rising, only a warm floor lamp on in the evening, messy bookshelf and a blanket over the armrest behind, authentic phone-photo texture with faint hand-shake blur at the edges, natural skin without smoothing, imperfect but lived-in --ar 3:4 --style raw`,
+  meta:[['模型','Midjourney v6 / Seedream 4'],['比例','3:4'],['视角','第一人称 26mm 略俯'],['距离','50–70cm'],['光位','暖色落地灯'],['用途','情侣日常 / 故事板']],
+  negative:'三脚架视角，第三人称，多余手臂，手指畸形，浓妆，肌肉夸张，网红滤镜，过度磨皮，构图完美对称，文字，水印',
+  related:['CH-13','VD-10']
+},
 
 /* ---------------- 场景 ---------------- */
 {
@@ -285,6 +373,28 @@ window.SEED = [
   meta:[['时长','12s'],['段落','4 段 × 3s'],['可替换','主体 / 场景 / 落点物件'],['用途','批量套用'],['平台','Seedance 2.5 / 可灵']],
   negative:'剪辑切换，镜头抖动，主体出画，落点物件不清，速度忽快忽慢，背景纹理爬行，人物变形',
   related:['CM-01','CM-02','NG-02']
+},
+{
+  id:'VD-09', cat:'video', project:'通用',
+  title:'POV 12s · 女友回头递水果',
+  summary:'第一人称手持，从客厅走向厨房，她听见脚步回头笑、递来一颗草莓，最后手入画接过，镜头轻微晃。',
+  tags:['POV','第一人称','12秒','情侣','手持'],
+  zh:`12 秒单镜头，第一人称手持视角。0-3s：从客厅走向厨房，镜头随步伐轻微上下起伏，前景是虚化的沙发扶手与门框；3-7s：她在料理台前切水果，听见脚步回头，笑着举起手里的一颗草莓递向镜头；7-12s：镜头继续前推靠近她的手，拍摄者的手从画面下方入画接过草莓，她的指尖离开画面，镜头轻轻晃了一下停在她的笑脸上。全程手持质感，无剪辑，无稳定器感，暖色厨房光，背景是窗外的绿植。`,
+  en:`single 12-second first-person handheld shot. 0-3s: walking from the living room toward the kitchen, the camera bobbing slightly with each step, blurred sofa arm and door frame in the foreground; 3-7s: she is cutting fruit at the counter, turns at the sound of footsteps and holds up a strawberry toward the lens with a smile; 7-12s: the camera pushes closer to her hand, the shooter hand entering from the bottom of the frame to take the strawberry, her fingertips leaving frame, the camera swaying once before settling on her smiling face. Handheld texture throughout, no cuts, no gimbal smoothness, warm kitchen light, plants outside the window --ar 9:16`,
+  meta:[['时长','12s'],['视角','第一人称手持'],['运镜','步行起伏 + 前推'],['首帧参考','CH-13'],['平台','Seedance 2.5 / 可灵']],
+  negative:'稳定器丝滑，第三人称，剪辑切换，多人出现，手部穿模，六指，镜头穿墙，色情暗示，面部变形',
+  related:['CH-13','VD-10']
+},
+{
+  id:'VD-10', cat:'video', project:'通用',
+  title:'POV 12s · 窗边他站起来靠近',
+  summary:'第一人称站在门口，他在逆光窗边抬头、放下杯子起身走来，手遮住镜头收尾，自然过渡。',
+  tags:['POV','第一人称','12秒','情侣','逆光'],
+  zh:`12 秒单镜头，第一人称视角站在客厅门口。0-3s：镜头静止一两秒后缓慢向前移动，前景门框略微虚化；3-7s：他坐在逆光的窗边，手里握着杯子，听见声音抬头看向镜头，放下杯子；7-12s：他起身走向镜头，逆光在他身后形成一圈光晕，走近后抬手轻轻遮住镜头，画面在手掌与指缝的暗调中结束，作为自然转场。全程手持轻微呼吸感，无剪辑，暖调逆光，背景是纱帘与午后浮尘。`,
+  en:`single 12-second first-person shot standing at the living room doorway. 0-3s: the camera holds still for a beat then drifts slowly forward, door frame softly out of focus in the foreground; 3-7s: he sits by the backlit window holding a cup, looks up at the lens at the sound, and sets the cup down; 7-12s: he stands and walks toward the camera, backlight forming a halo around him, then raises a hand to gently cover the lens, the frame ending in the dark tones of his palm and fingers as a natural transition. Subtle handheld breathing throughout, no cuts, warm backlight, sheer curtains and dust motes in the afternoon light --ar 9:16`,
+  meta:[['时长','12s'],['视角','第一人称'],['运镜','缓推 + 手掌遮镜收尾'],['首帧参考','CH-14'],['平台','Seedance 2.5 / 可灵']],
+  negative:'稳定器丝滑，第三人称，剪辑切换，镜头穿过人物，手部穿模，六指，面部变形，过曝死白，色情暗示',
+  related:['CH-14','VD-09']
 },
 
 /* ---------------- 风格 ---------------- */
